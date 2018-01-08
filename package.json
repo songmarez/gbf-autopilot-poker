@@ -1,0 +1,11 @@
+{
+  "name": "gbf-autopilot-poker",
+  "version": "1.0.0",
+  "description": "Poker extension for GBF Autopilot",
+  "main": "./src/index.js",
+  "author": "Frizz925 <Frizz925@hotmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.15.0"
+  }
+}
