@@ -1,7 +1,7 @@
 exports = module.exports = (logger, inject, process, config, requireCore) => () => {
   const Location = requireCore("steps/Location");
   const Poker = inject(require("./steps/Poker"));
-  const StartPoker = inject(require("./steps/StartPoker"));
+  const StartPoker = inject(require("./steps/Poker/StartPoker"));
 
   const pipeline = [
     Location(),
