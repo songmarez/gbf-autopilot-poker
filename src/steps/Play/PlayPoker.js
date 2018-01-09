@@ -7,7 +7,9 @@ exports = module.exports = (requireCore, inject, run, logger) => () => {
 
   return Step("Poker.Play", function PlayPoker() {
     logger.debug("Playing poker");
-    return run(Fetch());
+    return run(Fetch()).then((payload) => {
+      logger.debug(payload.card_list);
+    });
   });
 };
 exports["@require"] = ["require", "inject", "run", "logger"];
