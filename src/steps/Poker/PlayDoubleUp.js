@@ -66,7 +66,7 @@ exports = module.exports = (env, requireCore, run, process, logger, worker) => (
         logger.debug("Prediction:", prediction);
         if (prediction.low > prediction.high) {
           return "low";
-        } else if (prediction.high > prediction.low) { 
+        } else if (prediction.low < prediction.high) { 
           return "high";
         } else { // in case of 50:50, just randomize
           return Math.random() < 0.5 ? "low" : "high";
