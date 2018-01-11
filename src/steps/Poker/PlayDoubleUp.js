@@ -3,7 +3,6 @@ exports = module.exports = (env, requireCore, run, process, logger, worker) => (
   const Wait = requireCore("steps/Wait");
   const Check = requireCore("steps/Check");
   const Click = requireCore("steps/Click");
-  const Timeout = requireCore("steps/Timeout");
 
   const helper = env.poker.helper;
   const continuePoker = () => {
@@ -14,7 +13,12 @@ exports = module.exports = (env, requireCore, run, process, logger, worker) => (
       playPoker
     ]);
   };
-  const continueDoubleUp = () => PlayDoubleUp();
+  const continueDoubleUp = () => {
+    return process([
+      Click.Condition(".prt-yes-shine"),
+      PlayDoubleUp
+    ]);
+  };
   const checkDoubleUp = () => {
     return worker.sendAction("poker", "doubleResult").then((payload) => {
       if (payload.result == "win") {
@@ -54,13 +58,12 @@ exports = module.exports = (env, requireCore, run, process, logger, worker) => (
     env.poker.winningRounds = 0;
     env.poker.winningChips = 0;
     return process([
-      Click.Condition(".prt-yes"),
       Wait(".prt-double-select"),
-      Timeout(1500),
       () => worker.sendAction("poker", "doubleStart"),
       (_, payload) => {
         const card = payload.card_first;
         const prediction = helper.predictDouble(card);
+        logger.debug("Prediction:", prediction);
         if (prediction.low > prediction.high) {
           return "low";
         } else if (prediction.high > prediction.low) { 

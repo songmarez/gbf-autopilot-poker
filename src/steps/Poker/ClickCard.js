@@ -13,7 +13,7 @@ exports = module.exports = (worker, server, run, require) => (indexes) => {
   const clickCard = () => {
     return worker.sendAction("element", "#canv").then((result) => {
       const index = indexes.shift();
-      if (!index) return true;
+      if (index === undefined) return true;
   
       const mult = index - 2;
       result.scale = 1.5;
@@ -21,7 +21,7 @@ exports = module.exports = (worker, server, run, require) => (indexes) => {
       result.y += cardRect.top;
       result.width = cardRect.width;
       result.height = cardRect.height;
-      return server.makeRequest("click", result);
+      return server.makeRequest("click", result).then(clickCard);
     });
   };
 
@@ -29,7 +29,7 @@ exports = module.exports = (worker, server, run, require) => (indexes) => {
     return clickCard().then(() => {
       return run(Click.Condition(".prt-ok-shine"));
     }).then(() => {
-      return run(Wait(".prt-start,.prt-yes"));
+      return run(Wait(".prt-start-shine,.prt-yes-shine"));
     });
   }
   return Step("Poker", ClickCard);
