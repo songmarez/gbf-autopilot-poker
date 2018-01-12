@@ -3,6 +3,7 @@ exports = module.exports = (env, requireCore, inject, run, logger) => (playDoubl
   const Wait = requireCore("steps/Wait");
   const Check = requireCore("steps/Check");
   const Click = requireCore("steps/Click");
+  const Timeout = requireCore("steps/Timeout");
   const Fetch = inject(require("./FetchPokerHands"));
   const ClickCard = inject(require("./ClickCard"));
 
@@ -18,6 +19,9 @@ exports = module.exports = (env, requireCore, inject, run, logger) => (playDoubl
   function PlayPoker() {
     logger.info("Playing poker");
     return run(Wait(".prt-ok-shine")).then(() => {
+    }).then(() => {
+      return run(Timeout(500));
+    }).then(() => {
       return run(Fetch());
     }).then((cards) => {
       const suggestion = helper.keepSuggestion(cards);

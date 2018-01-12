@@ -3,6 +3,7 @@ exports = module.exports = (env, requireCore, run, process, logger, worker) => (
   const Wait = requireCore("steps/Wait");
   const Check = requireCore("steps/Check");
   const Click = requireCore("steps/Click");
+  const Timeout = requireCore("steps/Timeout");
 
   const helper = env.poker.helper;
   const continuePoker = () => {
@@ -59,6 +60,7 @@ exports = module.exports = (env, requireCore, run, process, logger, worker) => (
     env.poker.winningChips = 0;
     return process([
       Wait(".prt-double-select"),
+      Timeout(500),
       () => worker.sendAction("poker", "doubleStart"),
       (_, payload) => {
         const card = payload.card_first;
@@ -76,6 +78,7 @@ exports = module.exports = (env, requireCore, run, process, logger, worker) => (
         return run(Click(".prt-double-select[select='" + select + "']"));
       },
       Wait(".prt-start,.prt-yes"),
+      Timeout(500),
       () => run(Check(".prt-yes")).then(checkDoubleUp, continuePoker)
     ]);
   }
