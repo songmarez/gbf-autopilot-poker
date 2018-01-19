@@ -15,6 +15,7 @@ exports = module.exports = (requireCore, inject, process, env, config) => () => 
 
   const Wait = requireCore("steps/Wait");
   const Step = requireCore("steps/Step");
+  const Timeout = requireCore("steps/Timeout");
   
   const PlayPoker = inject(require("./PlayPoker"));
   const PlayDoubleUp = inject(require("./PlayDoubleUp"));
@@ -28,7 +29,7 @@ exports = module.exports = (requireCore, inject, process, env, config) => () => 
 
   return Step(function Poker() {
     return process([
-      Wait(".cnt-poker"),
+      Wait(".cnt-poker"), Timeout(1500),
       checkDealButton
     ]);
   });
